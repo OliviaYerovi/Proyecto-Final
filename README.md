@@ -1,70 +1,63 @@
-# Variación genotípica del gen OR6A2 en diferentes nacionalidades 
-
-Olivia Yerovi (oiyerovi@puce.edu.ec)
-1 de julio del 2025
+# Comparación y Análisis del Gen rpoB en _Escherichia coli_ y _Campylobacter jejuni_
 
 ## Introducción
 
-El gen OR6A2 es un receptor olfativo que se encuentra en el cromosoma 11 dentro de un grupo de ocho genes receptores 
-olfativos (Erikson et al., 2012). Este gen es responsable de detectar los químicos llamados ‘aldehídos’que también se encuentran en el jabón, 
-lo que provoca que algunas personas perciban un sabor jabonoso en el cilantro cuando existe una variación en este gen, 
-la cual se cree que se debe al polimorfismo de un solo nucleótido (SNP) rs72921001 (Erikson et al., 2012).
-Los individuos con el alelo A (dominante) de esta variación tienen menos propensión a percibir 
-un sabor jabonoso,por lo que se podría concluir que los individuos homocigotos recesivos tienden a percibir 
-al cilantro como jabón (Watson, 2021).
+El gen rpoB, que codifica la subunidad beta de la ARN polimerasa, se ha convertido en un gen candidato clave para los análisis filogenéticos y la identificación de bacterias, especialmente al estudiar aislados estrechamente relacionados.
+La secuenciación de rpoB permite una estimación eficiente del contenido bacteriano de G+C%, el valor de hibridación ADN-ADN y la identidad nucleotídica promedio (Adékambi & Raoult, 2009). De hecho, estudios comparativos han demostrado que rpoB supera al 16S rRNA en precisión para clasificar bacterias a nivel de especie (Case et al., 2007)
+Aunque rpoB se ha usado como marcador para identificar especies dentro del género Campylobacter (On et al., 1996), la comparación específica con E. coli puede proporcionar información valiosa sobre las diferencias evolutivas, estructurales y adaptativas entre estas bacterias.
 
-El propósito del proyecto es observar cómo la variante del gen OR6A2 que contiene el SNP rs72921001 se distribuye
-entre diferentes nacionalidades. Para esto, se obtendrán datos del genotipo de individuos con distintas
-nacionalidades (obtenido del catálogo de variaciones genéticas "1000 genomes prroject") y se generarán análisis filogenéticos para observar las relaciones que existen entre los individuos
-con la variante homocigótica de este gen, con el fin de rastrear qué nacionalidades son las más ancestrales en 
-presentar esta variación. También se analizarán cuales son las nacionalidades que presentan más y menos esta
-variación. 
+![BACTERIA](https://www.cosemarozono.com/wp-content/uploads/2017/05/como-prevenir-infecciones-alimentarias-campylobacter-jejuni.jpg)
+---
 
-![_Coriandrum sativum_](https://www.hola.com/horizon/landscape/82af1a662e49-portada-age-t.jpg)
+## Herramientas:
+  - `BWA` BWA es un paquete de software para mapear secuencias de ADN con respecto a un genoma de referencia extenso, para instalar
+se puede seguir las instrucciones del desarrollador aquí (https://github.com/lh3/bwa)
 
-## Dependencias
+  - `SAMTOOLS` Samtools es un conjunto de programas para interactuar con datos de secuenciación de alto rendimiento. Se puede descargar desde
+su página (https://www.htslib.org/download/) o desde su github (https://github.com/samtools/)
 
-* Hoffman2 - El Clúster Hoffman2 es el recurso centralizado de computación de alto rendimiento (HPC) de UCLA. 
-La HPC puede ser una solución cuando sus necesidades de datos y computación superan las capacidades de 
-una computadora personal. 
+  - `MUSCLE`es un programa de software utilizado para alinear secuencias múltiples de proteínas o ácidos nucleicos. La descarga se puede realizar
+desde el siguiente link (https://drive5.com/muscle/downloads_v3.htm)
 
-* Bcftools - BCFtools es un conjunto de utilidades que manipulan y trabajan con archivos en formato VCF
-(Variant Call Format) y su equivalente binario, BCF.Todos los comandos funcionan con VCF y BCF, tanto sin comprimir con BGZF.  
- 
-* Iqtree2 - Un algoritmo de búsqueda rápida para inferir árboles filogenéticos por máxima verosimilitud. 
+  - `MESQUITE` Su objetivo es proporcionar un flujo de trabajo transparente que permita al usuario visualizar en tiempo real datos, árboles y análisis para que pueda
+ver y comprender sus datos y resultados a medida que se procesan.
+Se puede descargar desde su repositorio (https://github.com/MesquiteProject/MesquiteCore/releases)
 
-* Muscle - Permite realizar una alineación de múltiples secuencias lo que permite la evaluación de 
-análisis posteriores, como árboles filogenéticos. 
+---
 
-* Bgzip - Bgzip comprime archivos de manera similar y compatible con gzip(1). 
+## Estructura del Workflow
 
-* Tabix - Tabix indexa un archivo de posición genómica delimitado por tabulaciones en .tab.bgz y crea un archivo de índice (in.tab.bgz.tbi o in.tab.bgz.csi) cuando la región no está presente en la línea de comandos. El archivo de datos de entrada debe ordenarse por posición y comprimirse mediante bgzip, que tiene una interfaz similar a gzip(1).
+1. **Descarga de Datos de bacterias**
+   - Lecturas Fastq de *E. coli* y *C. jejuni*.
+   - Genomas de referencia completos fastq `ecoli_genome.fasta` y `jejuni_genome.fasta`
 
-## Workflow del programa
+2. **Preparación del Entorno**
+   - Carga de herramientas necesarias como samtools o bwa
 
-- 1. Descargar los archivos de diferentes genotipos de la base de datos"1000 genomes project" en formato .VCF.
-- 2. Descargar lista de personas (ID) y su lugar de procedencia. 
-- 3. Seleccionar de las bases de datos el loci en donde se encuentra esta variante, para sólo trabajar con este gen.
-- 4. Filtrar los individuos que tienen el alelo homocigoto aa con el SNP rs72921001.
-- 5. Convertir el archivo VCF a formato FASTA
-- 6. Alinear con MUSCLE
-- 7. Realizar IQTREE al archivo alineado 
-- 8. Visualizar el archivo en FigTree
+3. **Indexación de Genomas**
+   - Usar los genomas descargados `ecoli_genome.fasta` y `jejuni_genome.fasta`
+   - Preparación para alineamiento con BWA y Samtools.
+
+4. **Alineación y Procesamiento**
+   - Alineación de lecturas.
+   - Conversión a formato BAM.
+   - Ordenamiento e indexación de archivos.
+
+5. **Extracción del Gen rpoB**
+   - Obtención de las secuencias específicas del gen rpoB en ambos organismos.
+
+6. **Alineamiento Múltiple**
+   - Fusión de las secuencias rpoB.
+   - Alineamiento comparativo con MUSCLE.
+
+---
 
 ## Resultados Esperados
+Una vez corrido el programa se espera obtener un archivo alineado que muestra las diferencias y similitudes entre las secuencias rpoB de ambas bacterias.
+Este archivo `muscle_rpoB.fasta` se verá en programa como Mesquite para el análisis de la secuencia.
 
-Se espera observar una filogenia que indique cuál es la nacionalidad más ancestral con el SNP rs72921001 en el gen 
-OR6A2 y que presentan el genotipo aa, al igual que las nacionalidades que más y menos presentan esta variación. 
+# Bibliografía
 
-
-## Bibliografía
-
-* Bcftools(1). (s/f). Github.Io. Recuperado el 2 de julio de 2025, de https://samtools.github.io/bcftools/bcftools.html
-* bgzip(1) manual page. (s/f). Htslib.org. Recuperado el 2 de julio de 2025, de https://www.htslib.org/doc/bgzip.html
-* Eriksson, N., Wu, S., Do, C. B., Kiefer, A. K., Tung, J. Y., Mountain, J. L., Hinds, D. A., & Francke, U. (2012). A genetic variant near olfactory receptor genes influences cilantro preference. Flavour, 1(1), 22. https://doi.org/10.1186/2044-7248-1-22
-* Hoffman2 high-performance compute Cluster. (s/f). Ucla.edu. Recuperado el 2 de julio de 2025, de https://oarc.ucla.edu/get-help/tools-and-solutions/hoffman2-high-performance-compute-cluster
-* Nguyen, L.-T., Schmidt, H. A., von Haeseler, A., & Minh, B. Q. (2014). IQ-TREE: A Fast and Effective Stochastic Algorithm for Estimating Maximum-Likelihood Phylogenies. Oup.com. https://doi.org/10.1093/molbev/msu300
-* tabix(1) manual page. (s/f). Htslib.org. Recuperado el 2 de julio de 2025, de https://www.htslib.org/doc/tabix.html
-* RCEDGAR. (s/f). Muscle. Recuperado el 2 de julio de 2025, de https://github.com/rcedgar/muscle
-* Watson, B. (2021, junio 15). How genes influence your preference for cilantro. Xcode Life. https://www.xcode.life/genes-and-nutrition/how-genes-influence-your-preference-for-cilantro/
-
+Adékambi, T., Drancourt, M., & Raoult, D. (2009). The rpoB gene as a tool for clinical microbiologists. Trends in Microbiology, 17(1):37–45. DOI: 10.1016/j.tim.2008.09.008
+On, S. L., Holmes, B., Sackin, M. J. (1996). A probability matrix for the identification of Campylobacters, Helicobacters and related taxa. Journal of Applied Bacteriology, 81(6), 425–432. DOI: 10.1111/j.1365-2672.1996.tb03529.x
+Case, R. J., Boucher, Y., Dahllöf, I., Holmström, C., Doolittle, W. F., & Kjelleberg, S. (2007). Use of 16S rRNA and rpoB genes as molecular markers for microbial ecology studies. Environmental Microbiology, 9(3), 613–619.
