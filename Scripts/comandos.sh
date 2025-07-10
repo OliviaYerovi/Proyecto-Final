@@ -27,15 +27,15 @@ module load samtools/
 
 # Indexar los genomas para E.coli y C.jejuni
 
-bwa index ecoli_genome.fa
+bwa index ecoli_genome.fasta
 samtools faidx ecoli_genome.fasta
 
-bwa index jejuni_genome.fa
+bwa index jejuni_genome.fasta
 samtools faidx jejuni_genome.fasta
 
 # Transformar los archivos de E.coli a Bam y alinear
 
-bwa mem ecoli_genome.fa SRR2584863_1.fastq.gz SRR2584863_2.fastq.gz > ecoli.sam
+bwa mem ecoli_genome.fasta SRR2584863_1.fastq.gz SRR2584863_2.fastq.gz > ecoli.sam
 samtools view -bS ecoli.sam > ecoli.bam
 samtools sort ecoli.bam -o ecoli_sorted.bam
 samtools index ecoli_sorted.bam
@@ -49,9 +49,9 @@ samtools index jejuni_sorted.bam
 
 # Extraer el gen rpoB de las locaciones del genoma 
 
-samtools faidx ecoli_genome.fa NC_000913.3:759933-763325 > rpoB_ecoli.fasta
-samtools faidx jejuni_genome.fa NC_002163.1:840500-843900 > rpoB_jejuni.fasta
+samtools faidx ecoli_genome.fasta NC_000913.3:759933-763325 > rpoB_ecoli.fasta
+samtools faidx jejuni_genome.fasta NC_002163.1:840500-843900 > rpoB_jejuni.fasta
 
 # Alinear con muscle 
-cat rpoB_ecoli.fa rpoB_jejuni.fa > rpoB_combined.fa
+cat rpoB_ecoli.fa rpoB_jejuni.fasta > rpoB_combined.fasta
 ./muscle3.8.31_i86linux64 -in rpoB_combined.fasta -out muscle_rpoB.fasta
