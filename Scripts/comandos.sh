@@ -42,7 +42,7 @@ samtools index ecoli_sorted.bam
 
 # Transformar los archivos de C.jejuni a Bam y alinear 
 
-bwa mem jejuni_genome.fa SRR31218424_1.fastq.gz SRR31218424_2.fastq.gz > jejuni.sam
+bwa mem jejuni_genome.fasta SRR31218424_1.fastq.gz SRR31218424_2.fastq.gz > jejuni.sam
 samtools view -bS jejuni.sam > jejuni.bam
 samtools sort jejuni.bam -o jejuni_sorted.bam
 samtools index jejuni_sorted.bam
@@ -53,5 +53,5 @@ samtools faidx ecoli_genome.fasta NC_000913.3:759933-763325 > rpoB_ecoli.fasta
 samtools faidx jejuni_genome.fasta NC_002163.1:840500-843900 > rpoB_jejuni.fasta
 
 # Alinear con muscle 
-cat rpoB_ecoli.fa rpoB_jejuni.fasta > rpoB_combined.fasta
+cat rpoB_ecoli.fasta rpoB_jejuni.fasta > rpoB_combined.fasta
 ./muscle3.8.31_i86linux64 -in rpoB_combined.fasta -out muscle_rpoB.fasta
