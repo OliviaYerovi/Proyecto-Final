@@ -56,8 +56,16 @@ Se puede descargar desde su repositorio (https://github.com/MesquiteProject/Mesq
 Una vez corrido el programa se espera obtener un archivo alineado que muestra las diferencias y similitudes entre las secuencias rpoB de ambas bacterias.
 Este archivo `muscle_rpoB.fasta` se verá en programa como Mesquite para el análisis de la secuencia.
 
+![](imag/resultados_mesquite.png)
+
+Esto es un ejemplo de como se vería los resultados en mesquite. Al abrir el archivo `muscle_rpoB.fasta`se muestran las dos secuencias del gen rpoB en las bacterias _E.coli_ y _C.jejuni_ En el gráfico cada fila corresponde a una de las dos secuencias genómicas analizadas, mientras que las columnas indican posiciones específicas del alineamiento. En cada celda se observa un nucleótido (A, T, G o C), y los colores permiten distinguir visualmente las coincidencias y discrepancias entre las secuencias.
+
+Estas diferencias a nivel de secuencia reflejan la divergencia evolutiva entre las dos bacterias, pese a que el gen rpoB conserva su función esencial. La identificación de estas variaciones es útil tanto para el análisis filogenético como para estudios de resistencia a antibióticos, dado que mutaciones específicas en rpoB pueden estar relacionadas con resistencia a rifampicina. Este tipo de alineamiento, por tanto, no solo permite comparar la conservación del gen entre especies bacterianas, sino también detectar regiones clave que podrían tener implicaciones funcionales o clínicas.
+
 # Bibliografía
 
-Adékambi, T., Drancourt, M., & Raoult, D. (2009). The rpoB gene as a tool for clinical microbiologists. Trends in Microbiology, 17(1):37–45. DOI: 10.1016/j.tim.2008.09.008
-On, S. L., Holmes, B., Sackin, M. J. (1996). A probability matrix for the identification of Campylobacters, Helicobacters and related taxa. Journal of Applied Bacteriology, 81(6), 425–432. DOI: 10.1111/j.1365-2672.1996.tb03529.x
+Adékambi, T., Drancourt, M., & Raoult, D. (2009). The rpoB gene as a tool for clinical microbiologists. Trends in Microbiology, 17(1):37–45. 
+
+On, S. L., Holmes, B., Sackin, M. J. (1996). A probability matrix for the identification of Campylobacters, Helicobacters and related taxa. Journal of Applied Bacteriology, 81(6), 425–432. 
+
 Case, R. J., Boucher, Y., Dahllöf, I., Holmström, C., Doolittle, W. F., & Kjelleberg, S. (2007). Use of 16S rRNA and rpoB genes as molecular markers for microbial ecology studies. Environmental Microbiology, 9(3), 613–619.
